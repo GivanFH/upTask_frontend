@@ -1,4 +1,4 @@
-import { Outlet } from "react-router-dom" //Outlet para mostrar un hijo del router principal
+import { Link, Outlet } from "react-router-dom" //Outlet para mostrar un hijo del router principal
 import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css'
 import Logo from '@/components/Logo';
@@ -11,7 +11,9 @@ export default function AppLayout() {
                 {/* max width 1536px */}
                 <div className="max-w-screen-2xl mx-auto flex flex-col lg:flex-row justify-between items-center">
                     <div className="w-64">
-                        <Logo />
+                        <Link to={'/'}>
+                            <Logo />
+                        </Link>
                     </div>
                     <NavMenu />
                 </div>

@@ -8,7 +8,7 @@ export default function EditProjectView() {
     const params = useParams()
     const projectId = params.projectId!
 
-    const { data, isLoading, error, isError } = useQuery({
+    const { data, isLoading, isError } = useQuery({
         queryKey: ['editProject', projectId],
         queryFn: () => getProjectById(projectId),
         retry: false
@@ -16,12 +16,6 @@ export default function EditProjectView() {
 
     if(isLoading) return 'Cargando...'
     if(isError) return <Navigate to='/404'/>
+    if(data) return <EditProjectForm data={data} projectId={projectId}/>
 
-    if(data) return <EditProjectForm/>
-
-    return (
-        <div>
-            EditProjectView
-        </div>
-    )
 }

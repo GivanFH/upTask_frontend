@@ -1,21 +1,49 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import ProjectForm from "./ProjectForm";
-import { ProjectFormData } from "@/types/index";
+import { Project, ProjectFormData } from "@/types/index";
 import { useForm } from "react-hook-form";
+import { useMutation, useQueryClient, QueryClient } from '@tanstack/react-query';
+import { updateProject } from "@/api/ProjectApi";
+import { toast } from "react-toastify";
 
+type EditProjectFormProps = {
+    data: ProjectFormData
+    projectId: Project['_id']
+}
 
-export default function EditProjectForm() {
+export default function EditProjectForm({ data, projectId }: EditProjectFormProps) {
 
     const initialValues: ProjectFormData = {
-        projectName: "",
-        clientName: "",
-        description: "",
+        projectName: data.projectName,
+        clientName: data.clientName,
+        description: data.description,
     }
 
+    const navigate = useNavigate();
     const { register, handleSubmit, formState: { errors } } = useForm({ defaultValues: initialValues })
 
-    const handleForm = () => {
+    const queryClient = useQueryClient()
+    const { mutate } = useMutation({
+        mutationFn: updateProject,
+        onError: (error) => {
+            toast.error(error.message)
+        },
+        onSuccess: (data) => {
+            // Deshabilita los queries para hacer una nueva consulta y asi revcargar la cache de las consultas previas
+            //y actualiza el state, asi teniendo un servidor y state sincronizados
+            queryClient.invalidateQueries({queryKey: ['projects']})
+            queryClient.invalidateQueries({queryKey: ['editProject', projectId]})
+            toast.success(data)
+            navigate('/')
+        }
+    })
 
+    const handleForm = (formData: ProjectFormData) => {
+        const data = {
+            formData,
+            projectId
+        }
+        mutate(data)
     }
 
     return (
