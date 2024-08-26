@@ -15,7 +15,7 @@ export default function TaskModalDetails() {
     const navigate = useNavigate()
     const location = useLocation()
     const queryParams = new URLSearchParams(location.search)
-    const taskId = queryParams.get('viewTask')!
+    const taskId = queryParams.get('viewTask')! //Al usar ! estamos indicando a TS que ese valor nunca será null 
 
     const show = taskId ? true : false
 
