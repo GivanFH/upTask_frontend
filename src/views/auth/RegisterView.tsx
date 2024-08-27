@@ -1,7 +1,10 @@
 import { useForm } from "react-hook-form";
+import { Link } from "react-router-dom";
+import { useMutation } from "@tanstack/react-query";
 import { UserRegistrationForm } from "@/types/index";
 import ErrorMessage from "@/components/ErrorMessage";
-import { Link } from "react-router-dom";
+import { createAccount } from "@/api/AuthAPI";
+import { toast } from "react-toastify";
 
 export default function RegisterView() {
 
@@ -14,9 +17,20 @@ export default function RegisterView() {
 
     const { register, handleSubmit, watch, reset, formState: { errors } } = useForm<UserRegistrationForm>({ defaultValues: initialValues });
 
+    const { mutate } = useMutation({
+        mutationFn: createAccount,
+        onError: (error) => {
+            toast.error(error.message)
+        }, onSuccess: (data) => {
+            toast.success(data)
+            reset()
+        }
+    })
+
     const password = watch('password');
 
-    const handleRegister = (formData: UserRegistrationForm) => { }
+    const handleRegister = (formData: UserRegistrationForm) => mutate(formData)
+
 
     return (
         <>
@@ -126,6 +140,12 @@ export default function RegisterView() {
                     className="text-center text-gray-500 font-normal"
                 >
                     ¿Ya tienes cuenta? Inicia sesión
+                </Link>
+                <Link
+                    to={'/auth/forgot-password'}
+                    className="text-center text-gray-500 font-normal"
+                >
+                    ¿Olvidaste tu contraseña? Reestablecer
                 </Link>
             </nav>
         </>
