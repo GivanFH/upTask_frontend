@@ -14,6 +14,7 @@ export async function createProject(formData: ProjectFormData) {
 }
 
 export async function getProjects() {
+    
     try {
         const { data } = await api('/projects')
         const response = dashboardProjectSchema.safeParse(data)
@@ -27,7 +28,7 @@ export async function getProjects() {
     }
 }
 
-export async function getProjectById(id : Project['_id']) {
+export async function getProjectById(id: Project['_id']) {
     try {
         const { data } = await api(`/projects/${id}`)
         return data
@@ -43,7 +44,7 @@ type ProjectAPIType = {
     projectId: Project['_id']
 }
 
-export async function updateProject({formData, projectId} : ProjectAPIType) {
+export async function updateProject({ formData, projectId }: ProjectAPIType) {
     try {
         const { data } = await api.put<string>(`/projects/${projectId}`, formData)
         return data
@@ -54,7 +55,7 @@ export async function updateProject({formData, projectId} : ProjectAPIType) {
     }
 }
 
-export async function deleteProject(id : Project['_id']) {
+export async function deleteProject(id: Project['_id']) {
     try {
         const { data } = await api.delete<string>(`/projects/${id}`)
         return data

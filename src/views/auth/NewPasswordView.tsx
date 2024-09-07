@@ -16,7 +16,7 @@ export default function NewPasswordView() {
         <span className=" text-fuchsia-500 font-bold"> para reestablecer tu contraseña</span>
       </p>
 
-      {!isValidToken ? <NewPasswordToken token={token} setToken={setToken} setIsValidToken={setIsValidToken}/> : <NewPasswordForm />}
+      {!isValidToken ? <NewPasswordToken token={token} setToken={setToken} setIsValidToken={setIsValidToken}/> : <NewPasswordForm token={token}/>}
 
     </>
   )
