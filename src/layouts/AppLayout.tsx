@@ -1,11 +1,22 @@
-import { Link, Outlet } from "react-router-dom" //Outlet para mostrar un hijo del router principal
-import { ToastContainer } from "react-toastify";
+import { Link, Navigate, Outlet } from "react-router-dom" //Outlet para mostrar un hijo del router principal
 import 'react-toastify/dist/ReactToastify.css'
 import Logo from '@/components/Logo';
 import NavMenu from "@/components/NavMenu";
+import { useAuth } from "@/hooks/useAuth";
 
 export default function AppLayout() {
-    return (
+
+    //Usar hook creado para verificar al usuario que este autenticado
+    const { data, isError, isLoading } = useAuth()
+
+    // console.log(data)
+
+    if (isLoading) return 'Cargando...'
+    if (isError) {
+        return <Navigate to='/auth/login' />
+    }
+
+    if (data) return (
         <>
             <header className="bg-gray-800 py-5">
                 {/* max width 1536px */}
@@ -15,7 +26,9 @@ export default function AppLayout() {
                             <Logo />
                         </Link>
                     </div>
-                    <NavMenu />
+                    <NavMenu
+                        name={data.name}
+                    />
                 </div>
             </header>
 
@@ -29,10 +42,10 @@ export default function AppLayout() {
                 </p>
             </footer>
 
-            <ToastContainer
+            {/* <ToastContainer
                 pauseOnHover={false}
                 pauseOnFocusLoss={false}
-            />
+            /> */}
         </>
     )
 }
