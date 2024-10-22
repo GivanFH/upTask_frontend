@@ -23,6 +23,7 @@ export default function EditProjectForm({ data, projectId }: EditProjectFormProp
     const { register, handleSubmit, formState: { errors } } = useForm({ defaultValues: initialValues })
 
     const queryClient = useQueryClient()
+    
     const { mutate } = useMutation({
         mutationFn: updateProject,
         onError: (error) => {

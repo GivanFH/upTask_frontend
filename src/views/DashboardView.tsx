@@ -16,6 +16,7 @@ export default function DashboardView() {
     })
 
     const queryClient = useQueryClient()
+    
     const { mutate } = useMutation({
         mutationFn: deleteProject,
         onError: (error) => {
