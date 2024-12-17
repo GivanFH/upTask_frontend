@@ -1,4 +1,3 @@
-import React from 'react';
 import type { ConfirmToken, NewPasswordFormType } from "../../types";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
